@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  api:
+    build: ./backend
+    environment:
+      - PORT=4000
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - CORS_ORIGIN=http://localhost:5173
+    ports:
+      - '4000:4000'
+  web:
+    working_dir: /app
+    image: node:20-alpine
+    command: sh -c "npm i -g vite && npm i && npm run dev -- --host"
+    volumes:
+      - ./frontend:/app
+    ports:
+      - '5173:5173'
