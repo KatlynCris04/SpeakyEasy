@@ -10,6 +10,7 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
+
     steps:
       - uses: actions/checkout@v4
 
@@ -17,19 +18,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: npm
 
-      - name: Frontend deps
-        working-directory: ./SpeakEasy/frontend
-        run: npm i
+      # ---------- Frontend ----------
+      - name: Dependências de front-end
+        working-directory: ./frontend
+        run: npm install
 
-      - name: Frontend tests
-        working-directory: ./SpeakEasy/frontend
+      - name: Testes de front-end
+        working-directory: ./frontend
         run: npm run test
 
-      - name: Backend deps
-        working-directory: ./SpeakEasy/backend
-        run: npm i
+      # ---------- Backend ----------
+      - name: Dependências de backend
+        working-directory: ./backend
+        run: npm install
 
-      - name: Backend tests
-        working-directory: ./SpeakEasy/backend
+      - name: Testes de backend
+        working-directory: ./backend
         run: npm run test
